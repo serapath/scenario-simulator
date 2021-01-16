@@ -16,6 +16,11 @@ function module_exports () {
   .on('uncaughtException', err => {
     console.error(err, 'Uncaught Exception thrown')
     process.exit(1)
+  })
+  .on('warning', error => {
+    const stack = error.stack
+    console.error(error, `warning ${stack}`)
+    // process.exit(3)
   }).stdin.on('data', (...args) => handler(...args))
   var handler = () => {}
   module.exports = listener => (handler = listener, config)

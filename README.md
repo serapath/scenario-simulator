@@ -131,7 +131,8 @@ console.log({ name, scenario })
 git clone https://github.com/serapath/scenario-simulator.git
 cd scenario-simulator
 npm install
-npm link
-npm start # follow instructions above
+npm install ./ # installs itself as a local dependency
+npm link # adds itself as a global command for npm scripts
+npm start # follow README instructions above
 # edit `./app` and `./scenario` for better testing data
 ```

@@ -111,9 +111,9 @@ function logger (name, type) {
     console.log(`[${name}]`, `${type}:\n`, `child process close all stdio with code ${code}`)
   }
   if (type === 'ERROR') return (...args) => {
-    console.error(`[${name}]`, `${type}:\n`, ...args)
+    console.error(`[${name}]`, `${type}:\n`, ...args.map(arg => arg.toString()))
   }
-  return (...args) => console.log(`[${name}]`, ...args)
+  return (...args) => console.log(`[${name}]`, ...args.map(arg => arg.toString()))
 }
 function get_port () {
   const net = require('net')

@@ -1,6 +1,6 @@
 {
   "name": "scenario-simulator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "start multiple `<appfile>.js` processes based on a `<scenario>.json` file",
   "main": "src/scenario-simulator.js",
   "bin": {

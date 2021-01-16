@@ -1,8 +1,11 @@
 {
   "name": "scenario-simulator",
-  "version": "0.0.0",
-  "description": "simulate secenarios",
+  "version": "0.0.1",
+  "description": "start multiple `&lt;appfile&rt;.js` processes based on a `&lt;scenario&rt;.json` file",
   "main": "src/scenario-simulator.js",
+  "bin": {
+    "simulate": "src/scenario-simulator.js"
+  },
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "hyperbeam": "^1.1.3",
@@ -12,12 +15,17 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "simulate",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "simulate"
   },
-  "bin": {
-    "simulate": "src/scenario-simulator.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serapath/scenario-simulator.git"
   },
+  "keywords": [],
   "author": "@serapath",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/serapath/scenario-simulator/issues"
+  },
+  "homepage": "https://github.com/serapath/scenario-simulator#readme"
 }

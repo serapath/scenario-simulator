@@ -125,3 +125,13 @@ console.log({ name, scenario })
   // ...
 }
 ```
+
+# contribute
+```bash
+git clone https://github.com/serapath/scenario-simulator.git
+cd scenario-simulator
+npm install
+npm link
+npm start # follow instructions above
+# edit `./app` and `./scenario` for better testing data
+```

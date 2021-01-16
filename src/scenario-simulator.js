@@ -35,24 +35,36 @@ async function execute (log) {
   const filepath = path.join(SCENARIOS, filename)  
   const scenario = Object.entries(require(filepath))
   const apps = scenario.flatMap(([app, n]) => new Array(n).fill(app))
+  // @NOTE: risk of more apps in scenario than free ports
+  const MAX_PORT = 65535 - apps.length
+  if (PORT) {
+    if (!Number.isInteger(Number(PORT))) return log.error('optional `port` argument must be a number')
+    // @NOTE: risk of busy ports between PORT and PORT + apps.length
+    if (Number(PORT) < 0 || Number(PORT) > MAX_PORT) return log.error(`try: 0 < port < ${MAX_PORT}`)
+  }
   if (!PORT) {
+    // @NOTE: risk of all port < MAX_PORT busy
     do {
       PORT = await get_port()
-    } while (PORT > (65535 - apps.length))
+    } while (PORT > MAX_PORT)
   }
 
   const children = { }
   for (var i = 0, len = apps.length; i < len; i++) {
     const filename = apps[i]
     const apppath = path.join(APPS, filename)
-    const childname = `${filename.split('.')[0]}:${PORT + i}`
+    const childname = `${filename.split('.')[0]}:${Number(PORT) + i}`
     const config = JSON.stringify({ name: childname, scenario })
     const child = spawn('node', [apppath, config], { stdio: 'pipe' })
     children[childname] = child
-    child.stdout.on('data', logger(childname))
-    child.stderr.on('data', logger(childname, 'ERROR'))
-    child.on('close', logger(childname, 'CLOSE'))
-    child.on('exit', logger(childname, 'EXIT'))
+    const log = logger(childname)
+    log.error = logger(childname, 'ERROR')
+    log.close = logger(childname, 'CLOSE')
+    log.exit = logger(childname, 'EXIT')
+    child.stdout.on('data', chunk => log(chunk.toString()))
+    child.stderr.on('data', log.error)
+    child.on('close', log.close)
+    child.on('exit', log.exit)
   }
   const list = Object.keys(children).reduce((list, k, i) => (list[i] = k, list), {})
   process.stdin.on('data', chunk => {
@@ -69,9 +81,11 @@ async function execute (log) {
       child.stdin.write(data)
     }
   })
-  return print_help()
+  print_help()
+  log('----------------------------------------')
+  return
   function print_help () {
-    log(JSON.stringify({
+    log('COMMANDS:', JSON.stringify({
       '/help': {
         args: '',
         demo: '/help',
@@ -96,10 +110,10 @@ function logger (name, type) {
   if (type === 'CLOSE') return code => {
     console.log(`[${name}]`, `${type}:\n`, `child process close all stdio with code ${code}`)
   }
-  if (type === 'ERROR') return chunk => {
-    console.error(`[${name}]`, `${type}:\n`, chunk.toString())
+  if (type === 'ERROR') return (...args) => {
+    console.error(`[${name}]`, `${type}:\n`, ...args)
   }
-  return chunk => console.log(`[${name}]`, chunk.toString())
+  return (...args) => console.log(`[${name}]`, ...args)
 }
 function get_port () {
   const net = require('net')

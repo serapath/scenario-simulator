@@ -76,14 +76,14 @@ async function execute (log) {
     // @TODO: make nested `by` and `type` transition on REPL easier
     // @TODO: color terminal output nicer
     // @TODO: on error or crash, allow easy restart/update/rollback of processes
-    const [cmd = '', data = ''] = chunk.toString().split('\n')[0].split(' ')
+    const [cmd = '', ...data] = chunk.toString().split('\n')[0].split(' ')
     if (cmd[0] !== '/') log('type: `/help`')
     else if (cmd === '/help') print_help()
     else {
       const node = cmd.slice(1)
       if (!list[node]) return log(`not a valid process number: ${cmd}`)
       const child = children[list[node]]
-      child.stdin.write(data)
+      child.stdin.write(data.join(' '))
     }
   })
   print_help()

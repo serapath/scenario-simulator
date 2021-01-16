@@ -1,5 +1,5 @@
 # scenario-simulator
-start multiple `&lt;appfile&rt;.js` processes based on a `&lt;scenario&rt;.json` file
+start multiple `<appfile>.js` processes based on a `<scenario>.json` file
 
 # use
 `npm install scenario-simulator`
@@ -16,7 +16,7 @@ start multiple `&lt;appfile&rt;.js` processes based on a `&lt;scenario&rt;.json`
   },
   "scripts": {
     "start": "simulate"
-  },
+  }
 }
 
 ```

@@ -17,7 +17,7 @@ function module_exports () {
     console.error(err, 'Uncaught Exception thrown')
     process.exit(1)
   }).stdin.on('data', (...args) => handler(...args))
-  const handler = () => {}
+  var handler = () => {}
   module.exports = listener => (handler = listener, config)
 }
 
@@ -69,7 +69,24 @@ async function execute (log) {
       child.stdin.write(data)
     }
   })
-  print_help()
+  return print_help()
+  function print_help () {
+    log(JSON.stringify({
+      '/help': {
+        args: '',
+        demo: '/help',
+        info: '(to see this message)',
+      },
+      '/<node> <text message>': {
+        args: {
+          '<node>': list,
+          '<text message>': 'string',
+        },
+        demo: '/0 hello world',
+        info: 'send <text message> to <node> with a process name',
+      },
+    }, 0, 2).slice(1).slice(0, -1))
+  }
 }
 
 function logger (name, type) {
@@ -83,23 +100,6 @@ function logger (name, type) {
     console.error(`[${name}]`, `${type}:\n`, chunk.toString())
   }
   return chunk => console.log(`[${name}]`, chunk.toString())
-}
-function print_help () {
-  log(JSON.stringify({
-    '/help': {
-      args: '',
-      demo: '/help',
-      info: '(to see this message)',
-    },
-    '/<node> <text message>': {
-      args: {
-        '<node>': list,
-        '<text message>': 'string',
-      },
-      demo: '/0 hello world',
-      info: 'send <text message> to <node> with a process name',
-    },
-  }, 0, 2).slice(1).slice(0, -1))
 }
 function get_port () {
   const net = require('net')

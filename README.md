@@ -38,7 +38,7 @@ console.log({ name, scenario })
 and `<project>/app/app2.js`
 ```js
 const simulator = require('scenario-simulator')
-const { name, scenario } = simulator(chunk => console.log('hello'})
+const { name, scenario } = simulator(chunk => console.log('hello'))
 ```
 and a first scneario file
 
@@ -72,15 +72,27 @@ npm start 1
 #   "/<node> <text message>": {
 #     "args": {
 #       "<node>": {
-#         "0": "app:46207"
+#         "0": "app1:34955",
+#         "1": "app1:34956",
+#         "2": "app1:34957",
+#         "3": "app1:34958",
+#         "4": "app1:34959",
+#         "5": "app2:34960",
+#         "6": "app2:34961",
+#         "7": "app2:34962"
 #       },
 #       "<text message>": "string"
 #     },
 #     "demo": "/0 hello world",
 #     "info": "send <text message> to <node> with a process name"
 #   }
+
 # [ROOT] ----------------------------------------
-# [app:46207] { id: 'app:46207', scenario: [ [ 'app.js', 1 ] ] }
+# [app1:34955] { name: 'app1:34955', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:34957] { name: 'app1:34957', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:34956] { name: 'app1:34956', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:34958] { name: 'app1:34958', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:34959] { name: 'app1:34959', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 <ctrl-c>
 npm start 1 foo
 # [ROOT] ERROR:
@@ -98,15 +110,27 @@ npm start 9000
 #   "/<node> <text message>": {
 #     "args": {
 #       "<node>": {
-#         "0": "app:9000"
+#         "0": "app1:9000",
+#         "1": "app1:9001",
+#         "2": "app1:9002",
+#         "3": "app1:9003",
+#         "4": "app1:9004",
+#         "5": "app2:9005",
+#         "6": "app2:9006",
+#         "7": "app2:9007"
 #       },
 #       "<text message>": "string"
 #     },
 #     "demo": "/0 hello world",
 #     "info": "send <text message> to <node> with a process name"
 #   }
+
 # [ROOT] ----------------------------------------
-# [app:9000] { id: 'app:9000', scenario: [ [ 'app.js', 1 ] ] }
+# [app1:9000] { name: 'app1:9000', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:9002] { name: 'app1:9002', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:9001] { name: 'app1:9001', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:9003] { name: 'app1:9003', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:9004] { name: 'app1:9004', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 asdf
 # [ROOT] type: `/help`
 /help
@@ -119,14 +143,21 @@ asdf
 #   "/<node> <text message>": {
 #     "args": {
 #       "<node>": {
-#         "0": "app:9000"
+#         "0": "app1:9000",
+#         "1": "app1:9001",
+#         "2": "app1:9002",
+#         "3": "app1:9003",
+#         "4": "app1:9004",
+#         "5": "app2:9005",
+#         "6": "app2:9006",
+#         "7": "app2:9007"
 #       },
 #       "<text message>": "string"
 #     },
 #     "demo": "/0 hello world",
 #     "info": "send <text message> to <node> with a process name"
 #   }
-/1 asdf
+/10 asdf
 # [ROOT] not a valid process number: /1
 /0 asdf
 # [app:9000] { message: 'asdf' }
@@ -138,8 +169,8 @@ asdf
 git clone https://github.com/serapath/scenario-simulator.git
 cd scenario-simulator
 npm install
-npm install ./ # installs itself as a local dependency
 npm link # adds itself as a global command for npm scripts
+npm link scenario-simulator # installs itself as a local dependency to be requireable
 npm start # follow README instructions above
 # edit `./app` and `./scenario` for better testing data
 ```

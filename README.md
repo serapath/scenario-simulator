@@ -6,7 +6,7 @@ start multiple `<appfile>.js` processes based on a `<scenario>.json` file
 
 for example make a new project folder
 ```js
-// project/package.json
+// <project>/package.json
 {
   "private": true,
   "name": "example",
@@ -40,7 +40,7 @@ and `<project>/app/app2.js`
 const simulator = require('scenario-simulator')
 const { name, scenario } = simulator(chunk => console.log('hello'))
 ```
-and a first scneario file
+and a first scenario file
 
 ```js
 // <project>/scenario/1.json

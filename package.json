@@ -1,17 +1,13 @@
 {
   "name": "scenario-simulator",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "start multiple `<appfile>.js` processes based on a `<scenario>.json` file",
   "main": "src/scenario-simulator.js",
   "bin": {
     "simulate": "src/scenario-simulator.js"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.3",
-    "hyperbeam": "^1.1.3",
-    "hypercore": "^9.7.0",
-    "hyperswarm": "^2.15.3",
-    "streamx": "^2.10.0"
+    "cross-spawn": "^7.0.3"
   },
   "devDependencies": {},
   "scripts": {

@@ -50,8 +50,13 @@ and a first scenario file
   // ...
 }
 ```
+
 # use
-**ussage** `simulate <scenario-name> [<port>]`
+**usage** `simulate <scenario-name> [<port>]`
+
+The following describes how to start the simulator, which launches multiple process instances according to the scenario file.
+It then shows how to send messages to individual processes, which they can listen and react to.
+The purpose of sending messages is to simulate local user input in one particular process. 
 ```bash
 npm start
 # [ROOT] ERROR:
@@ -93,14 +98,18 @@ npm start 1
 # [app1:34956] { name: 'app1:34956', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 # [app1:34958] { name: 'app1:34958', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 # [app1:34959] { name: 'app1:34959', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+
 <ctrl-c>
+
 npm start 1 foo
 # [ROOT] ERROR:
 #  optional `port` argument must be a number
+
 npm start 1 999111
 # [ROOT] ERROR:
 #  try: 0 < port < 65534
-npm start 9000
+
+npm start 1 9000
 # [ROOT] COMMANDS:
 #   "/help": {
 #     "args": "",
@@ -131,8 +140,10 @@ npm start 9000
 # [app1:9001] { name: 'app1:9001', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 # [app1:9003] { name: 'app1:9003', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
 # [app1:9004] { name: 'app1:9004', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+
 asdf
 # [ROOT] type: `/help`
+
 /help
 # [ROOT] COMMANDS:
 #   "/help": {
@@ -157,10 +168,13 @@ asdf
 #     "demo": "/0 hello world",
 #     "info": "send <text message> to <node> with a process name"
 #   }
+
 /10 asdf
-# [ROOT] not a valid process number: /1
+# [ROOT] not a valid <node> number: /10
+
 /0 asdf
 # [app:9000] { message: 'asdf' }
+
 <ctrl-c>
 ```
 

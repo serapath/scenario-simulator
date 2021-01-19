@@ -81,7 +81,7 @@ async function execute (log) {
     else if (cmd === '/help') print_help()
     else {
       const node = cmd.slice(1)
-      if (!list[node]) return log(`not a valid process number: ${cmd}`)
+      if (!list[node]) return log(`not a valid <node> number: ${cmd}`)
       const child = children[list[node]]
       child.stdin.write(data.join(' '))
     }

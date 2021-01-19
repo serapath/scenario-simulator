@@ -25,20 +25,20 @@ for example make a new project folder
 with `<project>/app/app1.js`
 
 ```js
-const simulator = require('scenario-simulator')
-const { name, scenario } = simulator(chunk => {
+const simulate = require('scenario-simulator')
+const { name, scenario } = simulate(chunk => {
   console.log({ message: chunk.toString() })
   // e.g. { message: 'asdf' }
 })
 console.log({ name, scenario })
 // e.g.
-// { id: 'app1:46207', scenario: [[app1,5],[app2,3]] }
+// { pid: 'app1:34955', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
 ```
 
 and `<project>/app/app2.js`
 ```js
-const simulator = require('scenario-simulator')
-const { name, scenario } = simulator(chunk => console.log('hello'))
+const simulate = require('scenario-simulator')
+const { name, scenario } = simulate(chunk => console.log('hello'))
 ```
 and a first scenario file
 
@@ -77,14 +77,14 @@ npm start 1
 #   "/<node> <text message>": {
 #     "args": {
 #       "<node>": {
-#         "0": "app1:34955",
-#         "1": "app1:34956",
-#         "2": "app1:34957",
-#         "3": "app1:34958",
-#         "4": "app1:34959",
-#         "5": "app2:34960",
-#         "6": "app2:34961",
-#         "7": "app2:34962"
+#         "0": "app1:36659",
+#         "1": "app1:36660",
+#         "2": "app1:36661",
+#         "3": "app1:36662",
+#         "4": "app1:36663",
+#         "5": "app2:36664",
+#         "6": "app2:36665",
+#         "7": "app2:36666"
 #       },
 #       "<text message>": "string"
 #     },
@@ -93,11 +93,11 @@ npm start 1
 #   }
 
 # [ROOT] ----------------------------------------
-# [app1:34955] { name: 'app1:34955', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:34957] { name: 'app1:34957', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:34956] { name: 'app1:34956', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:34958] { name: 'app1:34958', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:34959] { name: 'app1:34959', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:34955] { pid: 'app1:34955', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34957] { pid: 'app1:34957', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34956] { pid: 'app1:34956', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34958] { pid: 'app1:34958', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34959] { pid: 'app1:34959', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
 
 <ctrl-c>
 
@@ -135,11 +135,12 @@ npm start 1 9000
 #   }
 
 # [ROOT] ----------------------------------------
-# [app1:9000] { name: 'app1:9000', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:9002] { name: 'app1:9002', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:9001] { name: 'app1:9001', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:9003] { name: 'app1:9003', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
-# [app1:9004] { name: 'app1:9004', scenario: [ [ 'app1.js', 5 ], [ 'app2.js', 3 ] ] }
+# [app1:9000] { pid: 'app1:9000', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9002] { pid: 'app1:9002', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9001] { pid: 'app1:9001', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9003] { pid: 'app1:9003', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9004] { pid: 'app1:9004', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+
 
 asdf
 # [ROOT] type: `/help`
@@ -173,7 +174,7 @@ asdf
 # [ROOT] not a valid <node> number: /10
 
 /0 asdf
-# [app:9000] { message: 'asdf' }
+# [app1:9000] { message: 'asdf' }
 
 <ctrl-c>
 ```

@@ -40,6 +40,7 @@ async function execute (log) {
   const filepath = path.join(SCENARIOS, filename)  
   const scenario = Object.entries(require(filepath))
   const apps = scenario.flatMap(([app, n]) => new Array(n).fill(app))
+
   // @NOTE: risk of more apps in scenario than free ports
   const MAX_PORT = 65535 - apps.length
   if (PORT) {
@@ -54,24 +55,25 @@ async function execute (log) {
     } while (PORT > MAX_PORT)
   }
 
-  const children = { }
+  const nodes = apps.map((filename, i) => `${filename.split('.')[0]}:${Number(PORT) + i}`)
+  const processes = { }
   for (var i = 0, len = apps.length; i < len; i++) {
     const filename = apps[i]
     const apppath = path.join(APPS, filename)
-    const childname = `${filename.split('.')[0]}:${Number(PORT) + i}`
-    const config = JSON.stringify({ name: childname, scenario })
-    const child = spawn('node', [apppath, config], { stdio: 'pipe' })
-    children[childname] = child
-    const log = logger(childname)
-    log.error = logger(childname, 'ERROR')
-    log.close = logger(childname, 'CLOSE')
-    log.exit = logger(childname, 'EXIT')
-    child.stdout.on('data', chunk => log(chunk.toString()))
-    child.stderr.on('data', log.error)
-    child.on('close', log.close)
-    child.on('exit', log.exit)
+    const pid = nodes[i]
+    const config = JSON.stringify({ pid, nodes })
+    const node = spawn('node', [apppath, config], { stdio: 'pipe' })
+    processes[pid] = node
+    const log = logger(pid)
+    log.error = logger(pid, 'ERROR')
+    log.close = logger(pid, 'CLOSE')
+    log.exit = logger(pid, 'EXIT')
+    node.stdout.on('data', chunk => log(chunk.toString()))
+    node.stderr.on('data', log.error)
+    node.on('close', log.close)
+    node.on('exit', log.exit)
   }
-  const list = Object.keys(children).reduce((list, k, i) => (list[i] = k, list), {})
+  const list = Object.keys(processes).reduce((list, k, i) => (list[i] = k, list), {})
   process.stdin.on('data', chunk => {
     // @TODO: make nested `by` and `type` transition on REPL easier
     // @TODO: color terminal output nicer
@@ -80,10 +82,10 @@ async function execute (log) {
     if (cmd[0] !== '/') log('type: `/help`')
     else if (cmd === '/help') print_help()
     else {
-      const node = cmd.slice(1)
-      if (!list[node]) return log(`not a valid <node> number: ${cmd}`)
-      const child = children[list[node]]
-      child.stdin.write(data.join(' '))
+      const num = cmd.slice(1)
+      if (!list[num]) return log(`not a valid <node> number: ${cmd}`)
+      const node = processes[list[num]]
+      node.stdin.write(data.join(' '))
     }
   })
   print_help()
@@ -110,10 +112,10 @@ async function execute (log) {
 
 function logger (name, type) {
   if (type === 'EXIT') return code => {
-    console.log(`[${name}]`, `${type}:\n`, `child process exited with code ${code}`)
+    console.log(`[${name}]`, `${type}:\n`, `node process exited with code ${code}`)
   }
   if (type === 'CLOSE') return code => {
-    console.log(`[${name}]`, `${type}:\n`, `child process close all stdio with code ${code}`)
+    console.log(`[${name}]`, `${type}:\n`, `node process close all stdio with code ${code}`)
   }
   if (type === 'ERROR') return (...args) => {
     console.error(`[${name}]`, `${type}:\n`, ...args.map(arg => arg.toString()))

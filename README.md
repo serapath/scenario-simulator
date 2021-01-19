@@ -1,9 +1,10 @@
 # scenario-simulator
 start multiple `<appfile>.js` processes based on a `<scenario>.json` file
 
-# use
+# define
 `npm install scenario-simulator`
 
+for example make a new project folder
 ```js
 // project/package.json
 {
@@ -21,6 +22,35 @@ start multiple `<appfile>.js` processes based on a `<scenario>.json` file
 
 ```
 
+with `<project>/app/app1.js`
+
+```js
+const simulator = require('scenario-simulator')
+const { name, scenario } = simulator(chunk => {
+  console.log({ message: chunk.toString() })
+  // e.g. { message: 'asdf' }
+})
+console.log({ name, scenario })
+// e.g.
+// { id: 'app1:46207', scenario: [[app1,5],[app2,3]] }
+```
+
+and `<project>/app/app2.js`
+```js
+const simulator = require('scenario-simulator')
+const { name, scenario } = simulator(chunk => console.log('hello'})
+```
+and a first scneario file
+
+```js
+// <project>/scenario/1.json
+{
+  "app1.js": 5, // amount of instances of `app1.js`
+  "app2.js": 3, // amount of instances of `app2.js`
+  // ...
+}
+```
+# use
 **ussage** `simulate <scenario-name> [<port>]`
 ```bash
 npm start
@@ -101,29 +131,6 @@ asdf
 /0 asdf
 # [app:9000] { message: 'asdf' }
 <ctrl-c>
-```
-
-with
-
-```js
-// <project>/app/app1.js
-const simulator = require('scenario-simulator')
-const { name, scenario } = simulator(chunk => {
-  console.log({ message: chunk.toString() })
-  // e.g. { message: 'asdf' }
-})
-console.log({ name, scenario })
-// e.g.
-// { id: 'app1:46207', scenario: [[app1,5],[app2,3]] }
-```
-
-```js
-// <project>/scenario/1.json
-{
-  "app1.js": 5, // amount of instances of `app1.js`
-  "app2.js": 3, // amount of instances of `app2.js`
-  // ...
-}
 ```
 
 # contribute

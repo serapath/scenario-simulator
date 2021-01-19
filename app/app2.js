@@ -1,2 +1,2 @@
 const simulate = require('scenario-simulator')
-const { pid, nodes } = simulate(chunk => console.log('hello'))
+const { pid, list } = simulate(chunk => console.log('hello'))

@@ -55,13 +55,13 @@ async function execute (log) {
     } while (PORT > MAX_PORT)
   }
 
-  const nodes = apps.map((filename, i) => `${filename.split('.')[0]}:${Number(PORT) + i}`)
+  const list = apps.map((filename, i) => `${filename.split('.')[0]}:${Number(PORT) + i}`)
   const processes = { }
   for (var i = 0, len = apps.length; i < len; i++) {
     const filename = apps[i]
     const apppath = path.join(APPS, filename)
-    const pid = nodes[i]
-    const config = JSON.stringify({ pid, nodes })
+    const pid = list[i]
+    const config = JSON.stringify({ pid, list })
     const node = spawn('node', [apppath, config], { stdio: 'pipe' })
     processes[pid] = node
     const log = logger(pid)
@@ -73,7 +73,7 @@ async function execute (log) {
     node.on('close', log.close)
     node.on('exit', log.exit)
   }
-  const list = Object.keys(processes).reduce((list, k, i) => (list[i] = k, list), {})
+  const nodes = Object.keys(processes).reduce((nodes, k, i) => (nodes[i] = k, nodes), {})
   process.stdin.on('data', chunk => {
     // @TODO: make nested `by` and `type` transition on REPL easier
     // @TODO: color terminal output nicer
@@ -83,8 +83,8 @@ async function execute (log) {
     else if (cmd === '/help') print_help()
     else {
       const num = cmd.slice(1)
-      if (!list[num]) return log(`not a valid <node> number: ${cmd}`)
-      const node = processes[list[num]]
+      if (!nodes[num]) return log(`not a valid <node> number: ${cmd}`)
+      const node = processes[nodes[num]]
       node.stdin.write(data.join(' '))
     }
   })

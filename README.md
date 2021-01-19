@@ -26,19 +26,19 @@ with `<project>/app/app1.js`
 
 ```js
 const simulate = require('scenario-simulator')
-const { name, scenario } = simulate(chunk => {
+const { pid, list } = simulate(chunk => {
   console.log({ message: chunk.toString() })
   // e.g. { message: 'asdf' }
 })
-console.log({ name, scenario })
+console.log({ pid, list })
 // e.g.
-// { pid: 'app1:34955', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+// { pid: 'app1:34955', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
 ```
 
 and `<project>/app/app2.js`
 ```js
 const simulate = require('scenario-simulator')
-const { name, scenario } = simulate(chunk => console.log('hello'))
+const { pid, list } = simulate(chunk => console.log('hello'))
 ```
 and a first scenario file
 
@@ -93,11 +93,11 @@ npm start 1
 #   }
 
 # [ROOT] ----------------------------------------
-# [app1:34955] { pid: 'app1:34955', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
-# [app1:34957] { pid: 'app1:34957', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
-# [app1:34956] { pid: 'app1:34956', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
-# [app1:34958] { pid: 'app1:34958', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
-# [app1:34959] { pid: 'app1:34959', nodes: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34955] { pid: 'app1:34955', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34957] { pid: 'app1:34957', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34956] { pid: 'app1:34956', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34958] { pid: 'app1:34958', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+# [app1:34959] { pid: 'app1:34959', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
 
 <ctrl-c>
 
@@ -135,11 +135,11 @@ npm start 1 9000
 #   }
 
 # [ROOT] ----------------------------------------
-# [app1:9000] { pid: 'app1:9000', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
-# [app1:9002] { pid: 'app1:9002', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
-# [app1:9001] { pid: 'app1:9001', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
-# [app1:9003] { pid: 'app1:9003', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
-# [app1:9004] { pid: 'app1:9004', nodes: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9000] { pid: 'app1:9000', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9002] { pid: 'app1:9002', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9001] { pid: 'app1:9001', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9003] { pid: 'app1:9003', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app1:9004] { pid: 'app1:9004', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
 
 
 asdf

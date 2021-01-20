@@ -22,23 +22,38 @@ for example make a new project folder
 
 ```
 
+with `<project>/app/node_modules/_start.js`
+```js
+const firestarter = 5
+module.exports = function start (index) {
+  if (index === firestarter) { // e.g. to choose init logic
+    console.log(`
+      i am the fire starter <node ${firestarter}>
+      edit logic to kick off the scenario if you want :-)`)
+  }
+}
+```
+
 with `<project>/app/app1.js`
 
 ```js
+const start = require('_start')
 const simulate = require('scenario-simulator')
 const { pid, list } = simulate(chunk => {
-  console.log({ message: chunk.toString() })
-  // e.g. { message: 'asdf' }
+  console.log({ message: chunk.toString() }) // e.g. { message: 'asdf' }
 })
 console.log({ pid, list })
 // e.g.
 // { pid: 'app1:34955', list: ['app1:36659','app1:36660','app1:36661','app1:36662','app1:36663','app2:36664','app2:36665','app2:36666'] }
+start(list.indexOf(pid))
 ```
 
 and `<project>/app/app2.js`
 ```js
+const start = require('_start')
 const simulate = require('scenario-simulator')
 const { pid, list } = simulate(chunk => console.log('hello'))
+start(list.indexOf(pid))
 ```
 and a first scenario file
 
@@ -140,6 +155,7 @@ npm start 1 9000
 # [app1:9001] { pid: 'app1:9001', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
 # [app1:9003] { pid: 'app1:9003', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
 # [app1:9004] { pid: 'app1:9004', list: ['app1:9000','app1:9001','app1:9002','app1:9003','app1:9004','app2:9005','app2:9006','app2:9007'] }
+# [app2:45450] i am the fire starter <node 5>, edit logic to kick off the scenario if you want :-)
 
 
 asdf

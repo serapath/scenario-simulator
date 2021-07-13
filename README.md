@@ -39,7 +39,7 @@ But we are using the default, which is `./examples` :-)
 
 ---
 
-with `<project>/examples/node_modules/_start.js`
+with `<project>/examples/scenario/node_modules/_start.js`
 ```js
 const firestarter = 5
 module.exports = function start (index) {
@@ -88,7 +88,7 @@ and a first scenario file
 
 The following describes how to start the simulator, which launches multiple process instances according to the scenario file.
 It then shows how to send messages to individual processes, which they can listen and react to.
-The purpose of sending messages is to simulate local user input in one particular process. 
+The purpose of sending messages is to simulate local user input in one particular process.
 
 ```bash
 npm start

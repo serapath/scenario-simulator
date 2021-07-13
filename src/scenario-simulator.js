@@ -8,7 +8,12 @@ if (require.main === module) {
 
 function module_exports () {
   const [json] = process.argv.slice(2)
-  const config = JSON.parse(json)
+  var config
+  try {
+    config = JSON.parse(json)
+  } catch (e) {
+    config = { pid: null, list: [] }
+  }
   process.on('unhandledRejection', (reason, p) => {
     console.error(reason, 'Unhandled Rejection at Promise', p)
     process.exit(2)
@@ -35,10 +40,10 @@ async function execute (log) {
   const APPS = path.join(process.cwd(), prefix, 'scenario/app')
   var [scenario_name, PORT] = process.argv.slice(2)
   if (!scenario_name) return log.error('missing `scenario_name` argument')
-  if (scenario_name.includes('.')) return log.error('no "." allowed in scenario_name')  
+  if (scenario_name.includes('.')) return log.error('no "." allowed in scenario_name')
 
   const filename = `${scenario_name}.json`
-  const filepath = path.join(SCENARIOS, filename)  
+  const filepath = path.join(SCENARIOS, filename)
   const scenario = Object.entries(require(filepath))
   const apps = scenario.flatMap(([app, n]) => new Array(n).fill(app))
 

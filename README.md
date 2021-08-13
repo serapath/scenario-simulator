@@ -1,5 +1,5 @@
 # scenario-simulator
-start multiple `<appfile>.js` processes based on a `<scenario>.json` file
+start multiple `<cmdfile>.js` processes based on a `<scenario>.json` file
 
 # define
 `npm install scenario-simulator`
@@ -23,23 +23,23 @@ for example make a new project folder `<project>`
 ```
 
 all file paths further below are prefixed with:
-* `<project>/examples` (where `./examples` is the default)
+* `<project>/demo` (where `./demo` is the default)
 
-This can be changed to something else (e.g. `./demo`),
+This can be changed to something else (e.g. `./examples`),
 by setting an environment variable explicitly:
 ```js
 {
   "scripts": {
-    "start": "SIM=demo simulate"
+    "start": "SIM=examples simulate"
   }
 }
 ```
 
-But we are using the default, which is `./examples` :-)
+Instead of the default (`./demo`) we are using `./examples`
 
 ---
 
-with `<project>/examples/scenario/node_modules/_start.js`
+with `<project>/demo/node_modules/_start.js`
 ```js
 const firestarter = 5
 module.exports = function start (index) {
@@ -51,7 +51,7 @@ module.exports = function start (index) {
 }
 ```
 
-with `<project>/examples/scenario/app/app1.js`
+with `<project>/demo/scenario/cmd/app1.js`
 
 ```js
 const start = require('_start')
@@ -65,7 +65,7 @@ console.log({ pid, list })
 start(list.indexOf(pid))
 ```
 
-and `<project>/examples/scenario/app/app2.js`
+and `<project>/demo/scenario/cmd/app2.js`
 ```js
 const start = require('_start')
 const simulate = require('scenario-simulator')

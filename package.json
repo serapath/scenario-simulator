@@ -1,17 +1,14 @@
 {
   "name": "scenario-simulator",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "start multiple `<appfile>.js` processes based on a `<scenario>.json` file",
   "main": "src/scenario-simulator.js",
-  "bin": {
-    "simulate": "src/scenario-simulator.js"
-  },
   "dependencies": {
     "cross-spawn": "^7.0.3"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "simulate"
+    "start": "SIM=examples ./src/scenario-simulator.js"
   },
   "repository": {
     "type": "git",
